@@ -28,16 +28,25 @@ mkdir /opt/folder_name
 Step 2: 
 
 ```
-docker container run ti --mount type=bind,src=/opt/giropops,dst=/giropops debian
+docker container run ti --mount type=bind,src=/opt/folder_name,dst=/folder_name debian
 ```
+
+:construction_worker: Testing:
+- Verify if a directory folder_name exist in container
+- Creates file file_name in directory folder_name and writes something in it
+- Kill container
+- Verify if a file is in the directory folder_name
+- Run other container and repeat the the previous steps
+
+If everything is ok proceed :heavy_check_mark:
 
 ### 2 DockerFile
 
 Step 1: Create image with DockerFile
 
-:exclamation: Third-party images may have vulnerabilities. So, create your own images!
+:warning: Third-party images may have vulnerabilities. So, create your own images!
 
-:exclamation: Each RUN command creates a slice, only last slice is possible read and write. Therefore, use the RUN only once in your Dockerfile.
+:warning: Each RUN command creates a slice, only last slice is possible read and write. Therefore, use the RUN only once in your Dockerfile.
 
 #### DockerFile 1
 
