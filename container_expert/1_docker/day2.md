@@ -138,3 +138,164 @@ docker container run -d -p 8080:80 meu_apache:2.0.0
 view apache2 web page
 
 ip_of_host_where_up_container:8080
+
+
+#### DockerFile 3
+
+Up container with apache running and a HTLM page.
+
+```
+FROM debian
+RUN apt-get update && apt-get install -y apache2 && apt-get clean
+
+ENV APACHE_LOCK_DIR="/var/lock" 
+ENV APACHE_PID_FILE="/var/run/apache2.pid" 
+ENV APACHE_RUN_USER="www-data" 
+ENV APACHE_RUN_GROUP="www-data" 
+ENV APCHE_LOG_DIR="/var/log/apache2" 
+
+#copiar arquivo index.htlm de dentro do dockerfile
+COPY index.html /var/www/html/
+
+LABEL description="WebServer"
+LABEL version="1.0.0"
+
+VOLUME /var/www/html #cria automáticamente o volume
+EXPOSE 80 
+
+#principal processo do container (EXEC MODE - RECOMENDADO)
+ENTRYPOINT ["/usr/sbin/apachectl"]
+#apache em primeiro plano
+CMD ["-D", "FOREGROUND"]
+
+#SHELL MODE
+#CMD /usr/sbin/apachectl -D FOREGROUND
+```
+
+Buind and run image.
+
+#### DockerFile 4
+
+Up container with apache running and a HTLM page.
+
+```
+FROM debian
+RUN apt-get update && apt-get install -y apache2 && apt-get clean
+#add permissions for user data
+RUN chown www-data:www-data /var/lock/ && chown www-data:www-data /var/run/ && chown www-data:www-data /var/log/ 
+#problem if bind port < 100
+
+ENV APACHE_LOCK_DIR="/var/lock" 
+ENV APACHE_PID_FILE="/var/run/apache2.pid" 
+ENV APACHE_RUN_USER="www-data" 
+ENV APACHE_RUN_GROUP="www-data" 
+ENV APCHE_LOG_DIR="/var/log/apache2" 
+
+#copy descompacting files (if necessary) and download remote files
+ADD index.html /var/www/html/
+
+LABEL description="WebServer"
+LABEL version="1.0.0"
+
+#definir usuario
+USER root
+
+#Default directory
+WORKDIR /var/www/html/
+
+VOLUME /var/www/html #cria automáticamente o volume
+EXPOSE 80 
+
+#principal processo do container (EXEC MODE - RECOMENDADO)
+ENTRYPOINT ["/usr/sbin/apachectl"]
+#apache em primeiro plano
+CMD ["-D", "FOREGROUND"]
+
+#SHELL MODE
+#CMD /usr/sbin/apachectl -D FOREGROUND
+```
+
+Buind and run image.
+
+
+#### MultiStage Dockerfile 5
+
+In folder of the Dockerfile create Golang program
+
+```
+package main
+
+import (
+        "fmt"
+)
+
+func main() {
+        fmt.Println("Golang inside the container")
+}
+```
+
+Edit DockerFile
+
+```
+FROM golang
+
+WORKDIR /app
+ADD . /app
+RUN go build -o meugo
+ENTRYPOINT ./meugo
+```
+
+Build image: 
+
+```
+docker image build -t meugo:1.0 .
+```
+
+Running image:
+
+```
+docker container run -ti meugo:1.0
+```
+
+
+#### MultiStage Dockerfile 6
+
+Copy all things of the Dockerfile 5 folder in a new folder
+
+```
+cp -R folder_of_dockerfile_5 new_folder
+```
+
+Dockerfile aplaing Multistage (pipeline)
+
+FROM golang AS buildando
+
+```
+#pre container
+WORKDIR /app
+ADD . /app
+RUN go build -o meugo
+
+#result of pre container is used here
+#aplaing multistage
+FROM alpine
+WORKDIR /giropops
+#copiando coisas de buildando
+COPY --from=buildadando /app/meugo /giropops/
+
+ENTRYPOINT ./meugo
+```
+
+Build
+
+```
+docker image build -t meugo:2.0 .
+```
+
+Run
+
+```
+docker container run -ti meugo:2.0
+```
+
+
