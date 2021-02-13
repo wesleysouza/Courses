@@ -48,7 +48,7 @@ Step 1: Create image with DockerFile
 
 :warning: Each RUN command creates a slice, only last slice is possible read and write. Therefore, use the RUN only once in your Dockerfile.
 
-#### DockerFile 1
+#### Dockerfile 1
 
 ```
 FROM debian
@@ -94,7 +94,7 @@ Run image:
 docker container run -ti meu_apache:1.0.0 
 ```
 
-#### DockerFile 2 
+#### Dockerfile 2 
 
 Up container with apache running.
 
@@ -140,7 +140,7 @@ view apache2 web page
 ip_of_host_where_up_container:8080
 
 
-#### DockerFile 3
+#### Dockerfile 3
 
 Up container with apache running and a HTLM page.
 
@@ -174,7 +174,7 @@ CMD ["-D", "FOREGROUND"]
 
 Buind and run image.
 
-#### DockerFile 4
+#### Dockerfile 4
 
 Up container with apache running and a HTLM page.
 
@@ -310,7 +310,7 @@ command
 
 :warning: Each run command create one layer. Multiple RUN cammands in Dockefile create multiple layers increasing complexity and only being able to write in the last.
 
-#### BestPratices
+#### Best Pratices
 - Use the .Dockerignore https://docs.docker.com/engine/reference/builder/
 - Add non-root user
 - Use the exec form
