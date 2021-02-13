@@ -298,4 +298,77 @@ Run
 docker container run -ti meugo:2.0
 ```
 
+### IMAGES DEEP DIVE
+
+Multi-line example:
+
+```
+RUN command \
+command \
+command
+```
+
+:warning: Each run command create one layer. Multiple RUN cammands in Dockefile create multiple layers increasing complexity and only being able to write in the last.
+
+#### BestPratices
+- Use the .Dockerignore https://docs.docker.com/engine/reference/builder/
+- Add non-root user
+- Use the exec form
+- Sometimes it can be good not to use the cache --no-cache
+- Remmenber: one must be container is immutable and ephemeral
+
+#### Tips
+- CMD -> execute command
+- ENTRYPOINT -> Main container execution process
+- COPY OU ADD -> the COPY command extracts files compacted and internet files
+
+#### Variables
+
+Example:
+
+```
+ENV app_dir /opt/app
+WORKDIR ${app_dir}
+ADD .$app_dir
+
+#LABELS (anotações)
+LABEL "com.example.vendor"="LINUXtips"
+LABEL com.example.label-with-value="VAIIII"
+LABEL version="1.0"
+LABEL description ="Aqui vc pode \
+usar o multi-line" 
+```
+
+#### HEALTHECHECK
+
+Add HEALTHECHECK in Dockerfile:
+- Install Curl
+- Extract ID $(docker ps -q)
+
+```
+#HEALTHECHECK
+HEALTHECHECK --interval =5m --timeout=3s \
+CMD curl -f http://localhost/ || exit 1
+```
+
+#### ARGS 
+
+Example:
+
+```
+FROM ubuntu
+ARG CONT_IMG_VER
+ENV CONT_IMG_VER v1.0.0
+RUN echo $CONT_IMG_VER
+
+
+$docker build --build-arg
+CONT_IMG_VER=v2.0.0 Dockerfile
+
+#HEALTHECHECK
+HEALTHECHECK --interval =5m --timeout=3s \
+CMD curl -f http://localhost/ || exit 1
+```
+
+### Dockerhub
 
