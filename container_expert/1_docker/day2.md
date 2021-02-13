@@ -1,6 +1,6 @@
 # Notes of Day 2
 
-## Description
+## These notes contain the following subjects: Volumes, Dockerfile, Images, Dockerhub and Registry.
 
 This file have notes about:
 1. Volumes;
@@ -298,7 +298,7 @@ Run
 docker container run -ti meugo:2.0
 ```
 
-### :bookmark_tabs: IMAGES DEEP DIVE
+### :bookmark_tabs: 3 IMAGES DEEP DIVE
 
 Multi-line example:
 
