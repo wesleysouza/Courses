@@ -40,7 +40,7 @@ docker container run ti --mount type=bind,src=/opt/folder_name,dst=/folder_name 
 
 If everything is ok proceed :heavy_check_mark:
 
-### 2 DockerFile
+### :bookmark_tabs: 2 DockerFile
 
 Step 1: Create image with DockerFile
 
@@ -298,7 +298,7 @@ Run
 docker container run -ti meugo:2.0
 ```
 
-### IMAGES DEEP DIVE
+### :bookmark_tabs: IMAGES DEEP DIVE
 
 Multi-line example:
 
@@ -370,5 +370,73 @@ HEALTHECHECK --interval =5m --timeout=3s \
 CMD curl -f http://localhost/ || exit 1
 ```
 
-### Dockerhub
+### :bookmark_tabs: Dockerhub and Registry
+
+#### Dockerhub
+
+Tag images in Dockerhub format:
+
+```
+docker image tag id_image user_name_dockerhub/container_name:version
+```
+
+Upload image in Dockerhub:
+
+```
+docker login
+docker push user_name_dockerhub/container_name:version
+```
+
+#### Registry
+
+Logout of Dockerhub
+Create Registry
+
+```
+docker container run -d -p 5000:5000 --restart=always --name registry registry:2
+```
+
+Upload for local registry
+
+```
+docker image push registry_machine_name:port/container_name:version
+```
+
+Remove image of local registry
+
+```
+docker image -rm -f registry_machine_name:port/container_name:version
+```
+
+Run image for up registry local service
+
+```
+docker container run -d registry_machine_name:port/container_name:version
+```
+
+Show registry images
+
+```
+curl localhost:5000/v2/_catalog
+curl localhost:5000/v2/container_name_tags_catalog
+```
+
+Path folder of registry
+
+```
+/var/lib/registry/docker/registry/v2/repositories/meu_apache
+```
+
+##### Brif Commands
+
+# docker image inspect debian
+# docker history linuxtips/apache:1.0
+# docker login
+# docker login registry.suaempresa.com
+# docker push linuxtips/apache:1.0
+# docker pull linuxtips/apache:1.0
+# docker image ls
+# docker container run -d -p 5000:5000 --restart=always --name registry registry:2
+# docker tag IMAGEMID localhost:5000/apache
+
 
