@@ -1,6 +1,46 @@
-#Ansible estudos
+# Ansible (Mentoria dia 1)
+
+## Anotações do primeiro dia de mentoria do projeto Dados de Feira
+
+### Instalação
+
+#### Opção 1: Ferramentas Ansible em um só container
 
 github.com/ansible-community/toolset
+
+#### Opção 2: Instalando na máquina com o Ambiente Virtual Python (venv)
+
+Passo 1: Instalação do Python 3 e pip (caso vc ainda não tenha)
+
+```
+sudo apt install python3 && python3-pip
+```
+
+Passo 2: Instalando o virtualenv
+
+```
+pip3 install virtualenv
+```
+
+Passo 3: Criando o ambiente virtual
+
+```
+python3 -m venv .venv //.venv é o nome do ambiente virtual
+```
+
+Passo 4: Ativando o ambiente virtual
+
+```
+source .venv/bin/activate
+```
+
+Passo 5: Instalando o Ansible com o pip
+
+```
+pip3 install ansible
+```
+
+### Criando os Containers para teste
 
 #Docker Compose
 
